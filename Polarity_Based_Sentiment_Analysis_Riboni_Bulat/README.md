@@ -7,3 +7,6 @@ This repository contains:
 - reddit_api.py  --> a python script for scraping subreddits with the reddit API.
 - data_handle.py --> a python script for sentiment analysis / polarity score
 - Smart Data Analytics Presentation.key --> key note presentation
+
+
+!! Run Time of data_hanly.py is long
