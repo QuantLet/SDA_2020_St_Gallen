@@ -31,13 +31,12 @@ pip install sklearn
 pip install pyscagnostics
 """
 
-#<<<<<<< HEAD
+
 # PLEASE SET WORKING DIRECTORY PRIOR TO THE RUN
 #os.chdir("")
 
 
-#=======
-#>>>>>>> 9e257db6cee69d1bb511e6cb0ea6d73f83ee83c6
+
 ############################################################################
 ############################ DEFINING FUNCTIONS ############################
 ############################################################################
@@ -75,7 +74,7 @@ def ExtractTweets(sample=True):
         f.close()
         
         try:
-            ############
+
             count = 0
         
             while(True):
@@ -139,12 +138,17 @@ def ExtractTweets(sample=True):
                         # be passed in consequent call.
                         next_results_url_params = results['search_metadata']['next_results']
                         next_max_id = next_results_url_params.split('max_id=')[1].split('&')[0]
+                        flag = False
                     except:
                         
                         # No more next pages
+                        print("No more tweets available")
+                        flag = True
                         break
+                        
             
-
+                if flag == True:
+                    break
                 # If API limit is reached the script waits for 15 minutes to reset limit
                 print("\rAPI limit reached, waiting 15 minutes")
                 CountDown(910)
@@ -210,9 +214,9 @@ def AnalyzeSentiment(df):
     counter = 1
     
     for tweet in local_tweets.Text:
-        sys.stdout.write("\rAnalyzed {0} scores out of {1}".format(counter,
-                                                                   len(local_tweets)))
-        sys.stdout.flush()
+        #sys.stdout.write("\rAnalyzed {0} scores out of {1}".format(counter,
+        #                                                           len(local_tweets)))
+        #sys.stdout.flush()
         vs = analyzer.polarity_scores(tweet)
         pos.append(vs['pos'])
         neg.append(vs['neg'])
@@ -260,70 +264,104 @@ def ResampleDataframe(df):
 # Function FetchCryptoprices: Gets the cryptocurrency (BTC) prices
 # Arguments: num: number of minutes to be fetched
 '''   
-def FetchCryptoprices(df):
+def FetchCryptoprices(df, sample):
     
-
-
-    num = df.size
-    recent = df.index[-1].to_pydatetime()+timedelta(minutes=1)
-    num_of_iterations = math.ceil(num/2000)
-    last_limit = num-(num_of_iterations - 1)*2000
-    btc_prices = pd.DataFrame(columns=['time','close'])
+    if sample == "yes":
+        btc_prices = pd.read_csv("BTC/crypto_prices.csv", sep=",")
+        
+        btc_prices.reset_index(inplace=True)
+       
+        btc_prices['time'] = [datetime.strptime(ts, '%Y-%m-%d %H:%M:%S') for ts in btc_prices['time']]
     
-    for i in list(range(num_of_iterations)):
-        btc_time  = []
-        btc_high  = []
-        btc_low   = []
-        btc_open  = []
-        btc_close = []
+        btc_prices = btc_prices.set_index('time')
         
-        if i==0:
-            
-            btc = cryptocompare.get_historical_price_minute('BTC', 'USD', limit=2000,
-                                                      exchange='CCCAGG', toTs=recent)
-            
-            for x in range(2000):
-                btc_time.append(btc[x]['time'])
-                btc_high.append(btc[x]['high'])
-                btc_low.append(btc[x]['low'])
-                btc_open.append(btc[x]['open'])
-                btc_close.append(btc[x]['close'])
+        btc_prices.drop("index", axis=1, inplace=True)
+    
+    else:
+
+        num = df.size
+        recent = df.index[-1].to_pydatetime()+timedelta(minutes=1)
+        num_of_iterations = math.ceil(num/2000)
+        last_limit = num-(num_of_iterations - 1)*2000
+        btc_prices = pd.DataFrame(columns=['time','close'])
         
-        elif i != (num_of_iterations-1):
-            btc = cryptocompare.get_historical_price_minute('BTC', 'USD', limit=2000,
-                                                      exchange='CCCAGG', toTs=last_index)
+        
+        
+        for i in list(range(num_of_iterations)):
+            btc_time  = []
+            btc_high  = []
+            btc_low   = []
+            btc_open  = []
+            btc_close = []
+            flag = False
             
-            for x in range(2000):
-                btc_time.append(btc[x]['time'])
-                btc_high.append(btc[x]['high'])
-                btc_low.append(btc[x]['low'])
-                btc_open.append(btc[x]['open'])
-                btc_close.append(btc[x]['close'])
+            if i==0:
                 
-        else: 
+                btc = cryptocompare.get_historical_price_minute('BTC', 'USD', limit=2000,
+                                                          exchange='CCCAGG', toTs=recent)
+                
+                for x in range(2000):
+                    btc_time.append(btc[x]['time'])
+                    btc_high.append(btc[x]['high'])
+                    btc_low.append(btc[x]['low'])
+                    btc_open.append(btc[x]['open'])
+                    btc_close.append(btc[x]['close'])
             
-            btc = cryptocompare.get_historical_price_minute('BTC','USD', limit = last_limit,
-                                                            exchange ='CCCAGG',toTs=last_index)
+            elif i != (num_of_iterations-1):
+                btc = cryptocompare.get_historical_price_minute('BTC', 'USD', limit=2000,
+                                                          exchange='CCCAGG', toTs=last_index)
+    
+                for x in range(2000):
+    
+                    try:
+                        btc_time.append(btc[x]['time'])
+                        btc_high.append(btc[x]['high'])
+                        btc_low.append(btc[x]['low'])
+                        btc_open.append(btc[x]['open'])
+                        btc_close.append(btc[x]['close'])
+                    except:
+                        flag = True
+                        break
+    
+                
+                if flag == True:
+    
+                    btc_prices = btc_prices.append(pd.DataFrame({'time':btc_time, 'close':btc_close}).iloc[::-1])
+                    break
                     
-            for x in range(last_limit):
-                btc_time.append(btc[x]['time'])
-                btc_high.append(btc[x]['high'])
-                btc_low.append(btc[x]['low'])
-                btc_open.append(btc[x]['open'])
-                btc_close.append(btc[x]['close'])
+            else: 
                 
-            
-        last_index = datetime.utcfromtimestamp(int(btc[0]['time']))
-
-        btc_prices = btc_prices.append(pd.DataFrame({'time':btc_time, 'close':btc_close}).iloc[::-1])
-        
-    btc_prices.reset_index(inplace=True)
-        
-    btc_prices['time'] = [datetime.utcfromtimestamp(int(ts)) for ts in btc_prices['time']]
-
-    btc_prices = btc_prices.set_index('time')
+                btc = cryptocompare.get_historical_price_minute('BTC','USD', limit = last_limit,
+                                                                exchange ='CCCAGG',toTs=last_index)
+       
+                for x in range(last_limit):
+                    try:
+                        btc_time.append(btc[x]['time'])
+                        btc_high.append(btc[x]['high'])
+                        btc_low.append(btc[x]['low'])
+                        btc_open.append(btc[x]['open'])
+                        btc_close.append(btc[x]['close'])
+                    except:
+                        flag = True
+                        break
+                
+                if flag == True:
     
-    btc_prices.drop("index", axis=1, inplace=True)
+                    btc_prices = btc_prices.append(pd.DataFrame({'time':btc_time, 'close':btc_close}).iloc[::-1])
+                    break
+                    
+            
+            last_index = datetime.utcfromtimestamp(int(btc[0]['time']))
+    
+            btc_prices = btc_prices.append(pd.DataFrame({'time':btc_time, 'close':btc_close}).iloc[::-1])
+            
+        btc_prices.reset_index(inplace=True)
+            
+        btc_prices['time'] = [datetime.utcfromtimestamp(int(ts)) for ts in btc_prices['time']]
+    
+        btc_prices = btc_prices.set_index('time')
+        
+        btc_prices.drop("index", axis=1, inplace=True)
     
     return(btc_prices)
 
@@ -334,7 +372,10 @@ def FetchCryptoprices(df):
 ''' 
 def FinalizeData(sentiment, prices):
     
+    prices = prices[~prices.index.duplicated(keep='first')]
     sentiment = sentiment.iloc[::-1].tz_convert(None)
+    
+    sentiment = pd.DataFrame(sentiment[:len(prices)])
     
     final_dataframe = pd.concat([sentiment,prices], axis = 1)
     final_dataframe.columns = ['Sentiment', 'Close']
@@ -410,7 +451,7 @@ def create_scagnostics(df, name):
     sns.heatmap(scagnostics_df, yticklabels=True, cmap= 'RdBu_r',vmin=0, vmax=1)
 
     plt.title("Scagnostic plot for data "+name)
-    print(scagnostics_df["Clumpy"])
+
     return(all_measures)
 
 
@@ -476,7 +517,7 @@ if(len(sentiment_tweets)<2000):
 #STEP 5: Fetching Crypto Prices
 print("\n\nStep 5: Fetching Cryptocurrency data")
 print("--------------------------------------------------------------")
-crypto_prices = FetchCryptoprices(sentiment_tweets)
+crypto_prices = FetchCryptoprices(sentiment_tweets, prompt)
 crypto_prices.plot(title="BTC prices in USD")
 
 #STEP 6: Unify dataframes: tweets, sentiment, prices. And create features: return, vola, lagged return
