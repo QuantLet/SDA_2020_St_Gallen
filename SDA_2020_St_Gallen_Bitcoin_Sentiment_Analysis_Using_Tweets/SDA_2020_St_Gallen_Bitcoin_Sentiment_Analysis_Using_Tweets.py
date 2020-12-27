@@ -484,7 +484,7 @@ os.system('cls' if os.name=='nt' else 'clear')
 # STEP 1: Getting Tweets
 print("Step 1: Scraping Twitter")
 print("--------------------------------------------------------------")
-print("Scraping all available raw tweets takes around 8 hours.")
+print("Scraping all available raw tweets takes around 2.5 hours.")
 prompt = input("Would you like to use preapred and processed sample data instead? (yes/no): ")
 
 if prompt == "yes":
@@ -531,7 +531,7 @@ print("--------------------------------------------------------------")
 final_derivative = CreateDerivative(final_dataframe)
 
 #STEP 8: Scagnostics
-print("\n\nStep 7: Creating a scagnostics plot for data")
+print("\n\nStep 8: Creating a scagnostics plot for data")
 print("--------------------------------------------------------------")
 print("All plots are shown after the code run")
 create_scagnostics(final_dataframe,"")
