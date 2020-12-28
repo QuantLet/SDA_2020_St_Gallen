@@ -1,1 +1,1 @@
-# Cryptocurrencies_Clustering
+# SDA_2020_St_Gallen_Cryptocurrencies_Clustering
