@@ -1,0 +1,16 @@
+
+Name of Quantlet: 'SDA_2020_St_Gallen_03_Sentiment_Analysis'
+
+Published in: 'SDA_2020_St_Gallen'
+
+Description: 'Building a sentiment indicator with counts of positive and negative words of the SNB monetary policy assessments'
+
+Keywords: 'Textmining, Dictionary-based Sentiment Analysis, Classification'
+
+Author: 'Stefan Diener, Jan Scheidegger'
+
+Submitted:  '24. December 2020'
+
+Input: ' fed_dict.pickle, negate.pickle, articles_clean.xlsx'
+
+Output: 'NetSentiment.csv, count_words.png'
