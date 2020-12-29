@@ -34,7 +34,7 @@ Consumption_data = web.DataReader('CHEPFCEQDSMEI', 'fred', start, end).to_period
     'Q')  # Private Final Consumption Expenditure in Switzerland (CHEPFCEQDSMEI)
 
 # import the sentiment indicator
-NetSentiment_data = pd.read_csv('../SDA_2020_St_Gallen/SDA_2020_St_Gallen_SentimentAnalysis_of_CentralBank_Statements/data/NetSentiment').rename(columns={'date': 'DATE', '0': 'Sentiment'})
+NetSentiment_data = pd.read_csv('../NetSentiment').rename(columns={'date': 'DATE', '0': 'Sentiment'})
 NetSentiment_data['DATE'] = pd.to_datetime(NetSentiment_data['DATE']).dt.to_period('Q')  # transform date into quarter
 NetSentiment_data = NetSentiment_data.groupby('DATE').sum()
 
@@ -76,7 +76,7 @@ fig.tight_layout()
 
 fig.set_size_inches(12, 8)
 
-fig.savefig('plots/economic_varibales.png', dpi=300)
+fig.savefig('economic_varibales.png', dpi=300)
 
 # %% Model Prep
 
@@ -144,4 +144,4 @@ plt.plot(x_ax, y_pred_OLS, lw=0.8, color='blue', label='OLS')
 plt.plot(x_ax, y_pred_ELN, lw=0.8, color='green', label='ElasticNet')
 plt.plot(x_ax, y_pred_RF, lw=0.8, color='orange', label='RandomForest')
 plt.legend()
-plt.savefig('plots/model_results.png')
+plt.savefig('model_results.png')

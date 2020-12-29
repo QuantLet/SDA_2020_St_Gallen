@@ -27,7 +27,7 @@ def main():
         names.append(test)
 
     # specifiy download path
-    pdf_dir = "../SDA_2020_St_Gallen/SDA_2020_St_Gallen_SentimentAnalysis_of_CentralBank_Statements/data/lagebeurteilungenSNB/"
+    pdf_dir = "../SDA_2020_St_Gallen/SDA_2020_St_Gallen_SentimentAnalysis_SNB_Statements/data/lagebeurteilungenSNB/"
 
     # download the file to specific path
     def downloadFile(url, fileName):

@@ -77,7 +77,7 @@ def plot_wordcloud(text_col):
     plt.title("Top Words")
     plt.imshow(wordcloud, interpolation='bilinear')
     plt.axis("off")
-    plt.savefig('plots/wordcloud.png')
+    plt.savefig('wordcloud.png')
 
 
 def plot_polarity_subjectivity_dist(sent_col):
@@ -111,7 +111,7 @@ def plot_10_most_common_words(count_data, count_vectorizer):
     plt.xticks(x_pos, words, rotation=90)
     plt.xlabel('words')
     plt.ylabel('counts')
-    plt.savefig('plots/most_common_words.png')
+    plt.savefig('most_common_words.png')
 
 
 # Helper function
@@ -151,8 +151,7 @@ def train_plot_LDA(df):
 # %% Main
 def main():
     # Cleaning
-    data_dir = "../SDA_2020_St_Gallen/SDA_2020_St_Gallen_SentimentAnalysis_of_CentralBank_Statements/data/"
-    df = pd.read_excel(data_dir + 'articles_raw.xlsx', index_col=0, engine='openpyxl')
+    df = pd.read_excel('articles_raw.xlsx', index_col=0, engine='openpyxl')
     df['date'] = pd.to_datetime(df['date'])
 
     df['text_clean'] = clean_texts(df['text'])
@@ -164,7 +163,7 @@ def main():
                                      'text': lambda x: ''.join(x),
                                      'text_clean': lambda x: ','.join(x)})
 
-    df.to_excel('data/articles_clean.xlsx', engine='xlsxwriter')
+    df.to_excel('articles_clean.xlsx', engine='xlsxwriter')
 
     # EDA
     pd.Series(' '.join(df['text']).split()).value_counts()[:10].plot.bar()

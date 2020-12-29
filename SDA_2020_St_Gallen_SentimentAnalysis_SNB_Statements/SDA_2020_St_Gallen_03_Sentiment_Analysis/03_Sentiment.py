@@ -8,16 +8,16 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 
 # from Sentiment.Dictionary import fed_dict, lm_dict, negate  # Import the dictionaries
-from data.Dictionary import fed_dict,  negate  # Import the dictionaries
+from Dictionary.py import fed_dict, negate  # Import the dictionaries
 
-Data = pd.read_excel('data/articles_clean.xlsx')  # import from 03_Cleaning_EDA the cleaned data df
+data = pd.read_excel('articles_clean.xlsx')  # import from 03_Cleaning_EDA the cleaned data df
 
 # Dictionary tone assessment will compare them by Index (need the numbers back)
-Data['Index'] = range(0, len(Data))
+data['Index'] = range(0, len(data))
 
 # Make 'date' column as the index of Data
-Data.set_index(['date'], inplace=True)
-Data.head()
+data.set_index(['date'], inplace=True)
+data.head()
 
 
 def negated(word):
@@ -80,36 +80,37 @@ def tone_count_with_negation_check(dict, article):
 
     return results
 
+
 # %% Count the positive and negative words using dictionary lm_dict or fed_dict
-temp = [tone_count_with_negation_check(fed_dict, x) for x in Data.text_clean] # use lm_dict otherwise
+temp = [tone_count_with_negation_check(fed_dict, x) for x in data.text_clean]  # use lm_dict otherwise
 temp = pd.DataFrame(temp)
 
-Data['wordcount'] = temp.iloc[:, 0].values
-Data['NPositiveWords'] = temp.iloc[:, 1].values
-Data['NNegativeWords'] = temp.iloc[:, 2].values
+data['wordcount'] = temp.iloc[:, 0].values
+data['NPositiveWords'] = temp.iloc[:, 1].values
+data['NNegativeWords'] = temp.iloc[:, 2].values
 
 # Sentiment Score normalized by the number of words
-Data['sentiment'] = (Data['NPositiveWords'] - Data['NNegativeWords']) / Data['wordcount'] * 100
+data['sentiment'] = (data['NPositiveWords'] - data['NNegativeWords']) / data['wordcount'] * 100
 
-Data['Poswords'] = temp.iloc[:, 3].values
-Data['Negwords'] = temp.iloc[:, 4].values
+data['Poswords'] = temp.iloc[:, 3].values
+data['Negwords'] = temp.iloc[:, 4].values
 
 # %%  Plot Sentiment analysis -------------------------------------------------------------------------------------------------------
-NetSentiment = Data['NPositiveWords'] - Data['NNegativeWords']
-NetSentiment.to_csv('data/NetSentiment') # save the sentiment indicator
+NetSentiment = data['NPositiveWords'] - data['NNegativeWords']
+NetSentiment.to_csv('NetSentiment')  # save the sentiment indicator
 
 plt.figure(figsize=(15, 7))
 ax = plt.subplot()
 
-plt.plot(Data.index, Data['NPositiveWords'], c='green', linewidth=1.0)
-plt.plot(Data.index, Data['NNegativeWords'] * -1, c='red', linewidth=1.0)
-plt.plot(Data.index, NetSentiment, c='grey', linewidth=1.0)
+plt.plot(data.index, data['NPositiveWords'], c='green', linewidth=1.0)
+plt.plot(data.index, data['NNegativeWords'] * -1, c='red', linewidth=1.0)
+plt.plot(data.index, NetSentiment, c='grey', linewidth=1.0)
 
 plt.title('The number of positive/negative words in statement', fontsize=16)
 plt.legend(['Positive Words', 'Negative Words', 'Net Sentiment'], prop={'size': 14}, loc=1)
 
-ax.fill_between(Data.index, NetSentiment, where=(NetSentiment > 0), color='green', alpha=0.3, interpolate=True)
-ax.fill_between(Data.index, NetSentiment, where=(NetSentiment <= 0), color='red', alpha=0.3, interpolate=True)
+ax.fill_between(data.index, NetSentiment, where=(NetSentiment > 0), color='green', alpha=0.3, interpolate=True)
+ax.fill_between(data.index, NetSentiment, where=(NetSentiment <= 0), color='red', alpha=0.3, interpolate=True)
 
 years = mdates.YearLocator()  # every year
 months = mdates.MonthLocator()  # every month
@@ -120,14 +121,11 @@ ax.xaxis.set_major_locator(years)
 ax.xaxis.set_major_formatter(years_fmt)
 ax.xaxis.set_minor_locator(months)
 
-datemin = np.datetime64(Data.index[0], 'Y')
-datemax = np.datetime64(Data.index[-1], 'Y') + np.timedelta64(1, 'Y')
+datemin = np.datetime64(data.index[0], 'Y')
+datemax = np.datetime64(data.index[-1], 'Y') + np.timedelta64(1, 'Y')
 ax.set_xlim(datemin, datemax)
 
 ax.grid(True)
 
-
 plt.show()
-plt.savefig('plots/count_words.png')
-
-
+plt.savefig('count_words.png')

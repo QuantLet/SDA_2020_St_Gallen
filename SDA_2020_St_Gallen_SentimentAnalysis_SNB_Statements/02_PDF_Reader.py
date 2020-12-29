@@ -18,7 +18,7 @@ def main():
     columns = ['date', 'text', 'pagenr', 'filename']
     data = []
 
-    pdf_dir = "../SDA_2020_St_Gallen/SDA_2020_St_Gallen_SentimentAnalysis_of_CentralBank_Statements/data/lagebeurteilungenSNB/"
+    pdf_dir = "../SDA_2020_St_Gallen/SDA_2020_St_Gallen_SentimentAnalysis_SNB_Statements/data/lagebeurteilungenSNB/"
 
     # ii) loop through pdf files
     for i, fname in enumerate(os.listdir(pdf_dir)):
