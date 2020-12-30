@@ -2,15 +2,15 @@ Name of Quantlet: 'SDA_2020_St_Gallen_Bitcoin_Sentiment_Analysis_Using_Tweets'
 
 Published in: 'SDA_2020_St_Gallen'
 
-Description: 'Analysis of bitcoin fluctuations using sentiments from tweets that were scraped from Twitter'
+Description: 'Analysis of Bitcoin fluctuations using sentiments from tweets that were scraped from Twitter. The script can scrape the last 7 days of tweets and minutely BTC prices, and display a cross-correlation measure between sentiment scores and measures (return and volatility). The script includes a simple user interface, where the user can choose to use sample data or scrape real time.'
 
-Keywords: 'Twitter, Sentiment, Bitcoin, Crypto, Cryptocurrency, Scrapeing'
+Keywords: 'Twitter, Sentiment, Bitcoin, Crypto, Cryptocurrency, Scraping'
 
 Author: 'Mihai Atimut, Sandor Lukacs, Arpad Gerber'
 
 Submitted: '26 December 2020'
 
-Input: 'The input is raw tweets. The user can choose to scrape or to use data thata was 
-downoalded in advance (sample data)'
+Input: 'The input is raw tweets. The user can choose to scrape or to use data that was 
+downloaded in advance (sample data)'
 
-Output: 'Cross-correlation plots, scagnostics plots, sentiment graph'
+Output: 'Cross-correlation plots, scagnostics plots, sentiment graph, BTC price graph'
