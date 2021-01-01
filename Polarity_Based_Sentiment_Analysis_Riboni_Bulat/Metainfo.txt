@@ -1,4 +1,4 @@
-Name of Quantlet: 'SDA_2020_St_Gallen_Polarity_Based_Sentiment_Analysis'
+Name of Quantlet: 'Polarity_Based_Sentiment_Analysis_Riboni_Bulat'
 
 Published in: 'SDA_2020_St_Gallen'
 
