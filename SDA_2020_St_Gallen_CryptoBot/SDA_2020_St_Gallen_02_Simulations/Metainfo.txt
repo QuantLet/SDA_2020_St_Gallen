@@ -1,0 +1,18 @@
+
+Name of Quantlet: SDA_2020_St_Gallen_02_Simulations
+
+Published in: SDA_2020_St_Gallen_CryptoBot
+
+Description: Plotting Results from the Monte Carlo Simulation
+
+Keywords: QLearning, Trading Bot, BTC, Bitcoin, Timeseries, Technical Indicators
+
+Author: Tobias Mann, Tim Graf
+
+See also: SDA_2020_St_Gallen_01_DataImport, SDA_2020_St_Gallen_03_VisualizeSimulations, SDA_2020_St_Gallen_04_VisualizeMonteCarlo
+
+Submitted:  'Sun , January 03 2020 by Tobias Mann and Tim Graf'
+
+Datafile: ../Data/Dec19.csv
+
+Output:  ./Output_Dec_2019/Dec19_Paths.csv.gzip
