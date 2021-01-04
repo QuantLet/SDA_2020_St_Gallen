@@ -1,5 +1,5 @@
 
-Name of Quantlet: SDA_2020_St_Gallen_02_SimpleStratSim
+Name of Quantlet: SDA_2020_St_Gallen_02_Simulations
 
 Published in: SDA_2020_St_Gallen_CryptoBot
 
