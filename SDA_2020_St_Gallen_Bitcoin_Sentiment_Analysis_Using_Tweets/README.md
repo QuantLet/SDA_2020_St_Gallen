@@ -17,7 +17,7 @@ Author: Mihai Atimut, Sandor Lukacs, Arpad Gerber
 
 Submitted: 26 December 2020
 
-Input: The input is raw tweets. The user can choose to scrape or to use data that was
+Input: The input is raw tweets. The user can choose to scrape or to use data that was downloaded in advance (sample data)
 
 Output: Cross-correlation plots, scagnostics plots, sentiment graph, BTC price graph
 
