@@ -17,7 +17,7 @@ Author: Stefan Diener, Jan Scheidegger
 
 Submitted: 24. December 2020
 
-Input: LagebeurteilungenSNB PDF files automatically scraped from "https://www.snb.ch/en/iabout/monpol/id/monpol_current#
+Input: LagebeurteilungenSNB PDF files automatically scraped from "https://www.snb.ch/en/iabout/monpol/id/monpol_current#"
 
 Output: articles_raw.xlsx
 
