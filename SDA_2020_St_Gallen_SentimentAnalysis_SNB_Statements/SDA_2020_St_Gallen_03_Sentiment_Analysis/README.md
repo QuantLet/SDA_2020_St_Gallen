@@ -17,7 +17,7 @@ Author: Stefan Diener, Jan Scheidegger
 
 Submitted: 24. December 2020
 
-Input:  fed_dict.pickle, negate.pickle, articles_clean.xlsx
+Input: fed_dict.pickle, negate.pickle, articles_clean.xlsx
 
 Output: NetSentiment.csv, count_words.png
 
